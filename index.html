@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Country Quiz!</title>
+</head>
+<body>
+    <main class="container">
+        <section class="title">
+            <h1>COUNTRY QUIZ</h1>
+        </section>
+        <div class="white-box">
+            <section class="quizbox" id="quizbox">
+                <img src="./country-quiz-master/undraw_adventure_4hum 1.svg" id="logo" alt="Game logo">
+                <img src="" alt="flag" id="image">
+                <p id="question">...</p>
+    
+                <ul class="options-container" id="options-container" >
+                    <li class="options" id="op1">...</li>
+                    <li class="options" id="op2">...</li>
+                    <li class="options" id="op3">...</li>
+                    <li class="options" id="op4">...</li>
+                </ul>
+                <p class="next" id="next" onclick="startQuestion()">Next</p>
+            </section>
+    
+            <section class="results" id="results">
+                <img src="./country-quiz-master/undraw_winners_ao2o 2.svg" alt="Friends celebrating">
+                <h2>Results</h2>
+                <p id="results-count">ganaron las putas</span></p>
+                <p class="try-again" onclick="startQuestion()">Try again</p>
+            </section>
+        </div>
+    </main>
+    <script src="./js/index.js"></script>
+</body>
+</html>
