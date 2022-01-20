@@ -6,10 +6,10 @@ const clickeableAnswers = document.getElementById("options-container")
 const nextButton = document.getElementById("next")
 const resultBox = document.getElementById("results")
 const resultText = document.getElementById("results-count")
-const checkIcon = new Image
+const checkIcon = document.createElement("svg")
 checkIcon.src = "../country-quiz-master/check2.svg"
 checkIcon.classList.add("icon")
-const xIcon = new Image
+const xIcon = document.createElement("svg")
 xIcon.src = "../country-quiz-master/x.svg"
 xIcon.classList.add("icon")
 const se = new Image
