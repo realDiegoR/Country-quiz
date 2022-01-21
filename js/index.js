@@ -7,10 +7,10 @@ const nextButton = document.getElementById("next")
 const resultBox = document.getElementById("results")
 const resultText = document.getElementById("results-count")
 const checkIcon = new Image
-checkIcon.src = "/country-quiz-master/outline_check_black_24dp.png"
+checkIcon.src = "./country-quiz-master/outline_check_black_24dp.png"
 checkIcon.classList.add("icon")
 const xIcon = new Image
-xIcon.src = "/country-quiz-master/outline_close_black_24dp.png"
+xIcon.src = "./country-quiz-master/outline_close_black_24dp.png"
 xIcon.classList.add("icon")
 let dontCheat;
 let click;
