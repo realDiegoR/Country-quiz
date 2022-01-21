@@ -7,10 +7,10 @@ const nextButton = document.getElementById("next")
 const resultBox = document.getElementById("results")
 const resultText = document.getElementById("results-count")
 const checkIcon = new Image
-checkIcon.src = "../country-quiz-master/check2.svg"
+checkIcon.src = "../country-quiz-master/outline_check_black_24dp.png"
 checkIcon.classList.add("icon")
 const xIcon = new Image
-xIcon.src = "../country-quiz-master/x.svg"
+xIcon.src = "../country-quiz-master/outline_close_black_24dp.png"
 xIcon.classList.add("icon")
 const se = new Image
 se.src = "../country-quiz-master/x.svg"
@@ -35,14 +35,6 @@ const correctCount = closure()
 
 function startQuestion() {
 
-    answers.forEach( item => {
-        item.classList.remove("correct", "wrong")
-    })
-    resultBox.style.display = "none"
-    quizbox.style.display = "block"
-    image.style.display = "none"
-    nextButton.classList.remove("show")
-
     const question = random(0, 2)
     
     fetch("https://restcountries.com/v3.1/all?fields=name,capital,flags,subregion")
@@ -57,6 +49,15 @@ function startQuestion() {
             }
         })
         .then( countriesData => {
+
+            answers.forEach( item => {
+                item.classList.remove("correct", "wrong")
+            })
+            resultBox.style.display = "none"
+            quizbox.style.display = "block"
+            image.style.display = "none"
+            nextButton.classList.remove("show")
+
             const selected = countriesData[ random(0, 249) ]
             switch (question) {
             case 0:
@@ -192,10 +193,12 @@ clickeableAnswers.addEventListener("click", (ev) => {
         nextButton.classList.add("show")
         count = correctCount(1)
     } else {
-        quizbox.style.display = "none"
-        resultBox.style.display = "flex"
-        resultText.innerHTML = `You got <span class="count">${correctCount(1)}</span> correct answers.`
-        correctCount(0)
+        setTimeout( function() {
+            quizbox.style.display = "none"
+            resultBox.style.display = "flex"
+            resultText.innerHTML = `You got <span class="count">${correctCount(1)}</span> correct answers.`
+            correctCount(0)
+        }, 2500)
     }
 })
 
