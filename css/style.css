@@ -153,7 +153,7 @@ body{
     box-shadow: 0 0 5px 0px black;
     border-radius: 8px;
     padding: 7px;
-    margin: 0 auto;
+    margin: 0 auto 15px;
 }
 
 .mouseover{
