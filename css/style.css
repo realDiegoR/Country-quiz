@@ -57,7 +57,7 @@ body{
 
 .quizbox{
     position: relative;
-    padding: 48px 18px 24px;
+    padding: 38px 18px 24px;
     /* display: none; */
 }
 
@@ -141,6 +141,19 @@ body{
     color: white;
     border: 0;
     font-weight: 300;
+}
+
+.time{
+    text-align: center;
+}
+.time #timer{
+    background-color: #F9A826;
+    width: 80px;
+    color: white;
+    box-shadow: 0 0 5px 0px black;
+    border-radius: 8px;
+    padding: 7px;
+    margin: 0 auto;
 }
 
 .mouseover{

@@ -5,21 +5,24 @@ const image = document.getElementById("image")
 const clickeableAnswers = document.getElementById("options-container")
 const nextButton = document.getElementById("next")
 const resultBox = document.getElementById("results")
+const resultTitle = document.getElementById("results-title")
 const resultText = document.getElementById("results-count")
+const timer = document.getElementById("timer")
 const checkIcon = new Image
 checkIcon.src = "./country-quiz-master/outline_check_black_24dp.png"
 checkIcon.classList.add("icon")
 const xIcon = new Image
 xIcon.src = "./country-quiz-master/outline_close_black_24dp.png"
 xIcon.classList.add("icon")
+let interval;
 let dontCheat;
 let click;
+const regions = ["america", "europe"]
 
 function closure() {
     let correctCount = 0
     return function(type) {
         console.log(correctCount)
-        // debugger
         if (type == 1) {
             return correctCount++
         } else {
@@ -32,9 +35,13 @@ const correctCount = closure()
 
 function startQuestion() {
 
+    timer.innerHTML = "15 sec"
+
+    if (interval) clearInterval(interval)
+
     const question = random(0, 2)
     
-    fetch("https://restcountries.com/v3.1/all?fields=name,capital,flags,subregion")
+    fetch(`https://restcountries.com/v3.1/region/${regions[random(0,1)]}?fields=name,capital,flags,subregion`)
         .then( countriesData => {
             if (countriesData.ok) {
                 return countriesData.json()
@@ -55,7 +62,16 @@ function startQuestion() {
             image.style.display = "none"
             nextButton.classList.remove("show")
 
-            const selected = countriesData[ random(0, 249) ]
+            let sec = 15
+            interval = setInterval(() => {
+                timer.innerHTML = `${--sec} sec`    
+                if (sec == 0) {
+                    clearInterval(interval)
+                    getResults("Time's out!")
+                }
+            }, 1000);
+
+            const selected = countriesData[ random(0, countriesData.length - 1) ]
             switch (question) {
             case 0:
                 elaborateQuestion(countriesData, selected, question)
@@ -125,7 +141,7 @@ function startQuestion() {
 function elaborateQuestion(allCountries, countrySelected, type) {
 
     // dontCheat = {countrySelected, type}
-    
+    console.log(allCountries, countrySelected, type)
     const possibleAnswers = allCountries.filter( country => {
         if (country.name.common === countrySelected.name.common) return false
             
@@ -179,7 +195,11 @@ clickeableAnswers.addEventListener("mouseout", (ev) => {
 })
 
 clickeableAnswers.addEventListener("click", (ev) => {
+
     if (ev.target == clickeableAnswers) return false
+
+    clearInterval(interval)
+
     const answers = [...clickeableAnswers.children]
     if (answers.some( item => item.classList.contains("correct"))) return false
     
@@ -190,14 +210,25 @@ clickeableAnswers.addEventListener("click", (ev) => {
         nextButton.classList.add("show")
         count = correctCount(1)
     } else {
-        setTimeout( function() {
-            quizbox.style.display = "none"
-            resultBox.style.display = "flex"
-            resultText.innerHTML = `You got <span class="count">${correctCount(1)}</span> correct answers.`
-            correctCount(0)
-        }, 2500)
+        setTimeout( getResults, 2500, "Results")
     }
 })
+
+timer.addEventListener("DOMCharacterDataModified", ev => {
+    if (timer.innerText == "0 sec") {
+        alert("xd")
+    } else {
+        alert(1)
+    }
+})
+
+function getResults(title) {
+    quizbox.style.display = "none"
+    resultBox.style.display = "flex"
+    resultTitle.innerHTML = title
+    resultText.innerHTML = `You got <span class="count">${correctCount(1)}</span> correct answers.`
+    correctCount(0)
+}
 
 
 function random(min, max) {
