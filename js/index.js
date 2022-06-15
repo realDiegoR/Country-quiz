@@ -15,14 +15,12 @@ const xIcon = new Image
 xIcon.src = "./country-quiz-master/outline_close_black_24dp.png"
 xIcon.classList.add("icon")
 let interval;
-let dontCheat;
 let click;
 const regions = ["america", "europe"]
 
-function closure() {
+function startCount() {
     let correctCount = 0
     return function(type) {
-        console.log(correctCount)
         if (type == 1) {
             return correctCount++
         } else {
@@ -31,7 +29,61 @@ function closure() {
     }
 }
 
-const correctCount = closure()
+function random(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+function markAsCorrectAnswer(ev) {
+    ev.target.classList.add("correct")
+    ev.target.appendChild(checkIcon)
+}
+
+function markAsWrongAnswer(ev, goodAnswer) {
+    ev.target.classList.add("wrong")
+    ev.target.appendChild(xIcon)
+    const correctAnswer = answers.find( item => item.innerText == goodAnswer)
+    correctAnswer.classList.add("correct")
+    correctAnswer.appendChild(checkIcon)
+}
+
+clickeableAnswers.addEventListener("mouseover", (ev) => {
+    if (ev.target == clickeableAnswers) return false
+    ev.target.classList.add("mouseover")    
+})
+
+clickeableAnswers.addEventListener("mouseout", (ev) => {
+    if (ev.target == clickeableAnswers) return false
+    ev.target.classList.remove("mouseover")
+})
+
+clickeableAnswers.addEventListener("click", (ev) => {
+
+    if (ev.target == clickeableAnswers) return false
+
+    clearInterval(interval)
+
+    const answers = [...clickeableAnswers.children]
+    if (answers.some( item => item.classList.contains("correct"))) return false
+    
+    const answerWasCorrect = click(ev)
+
+    if (answerWasCorrect) {
+        nextButton.classList.add("show")
+        correctAnswersCount(1)
+    } else {
+        setTimeout( getResults, 2500, "Results")
+    }
+})
+
+function getResults(title) {
+    quizbox.style.display = "none"
+    resultBox.style.display = "flex"
+    resultTitle.innerHTML = title
+    resultText.innerHTML = `You got <span class="count">${correctAnswersCount(1)}</span> correct answers.`
+    correctAnswersCount(0)
+}
+
+const correctAnswersCount = startCount()
 
 function startQuestion() {
 
@@ -72,65 +124,28 @@ function startQuestion() {
             }, 1000);
 
             const selected = countriesData[ random(0, countriesData.length - 1) ]
-            switch (question) {
-            case 0:
-                elaborateQuestion(countriesData, selected, question)
-                break;
-            case 1:
-                elaborateQuestion(countriesData, selected, question)
-                break;
-            case 2:
-                elaborateQuestion(countriesData, selected, question)
-                break;
-            }
+            
+            elaborateQuestion(countriesData, selected, question)
 
-            dontCheat = function() {
+            function isCorrect() {
                 type = question;
                 country = selected;
                 return function(ev) {
                     const answers = [...clickeableAnswers.children]
+                    const clickedAnswerText = ev.target.innerText
                     if (type == 0) {
-                        if (ev.target.innerText == selected.name.common) {
-                            ev.target.classList.add("correct")
-                            ev.target.appendChild(checkIcon)
-                        } else {
-                            ev.target.classList.add("wrong")
-                            ev.target.appendChild(xIcon)
-                            const correctAnswer = answers.find( item => item.innerText === selected.name.common)
-                            console.log(correctAnswer)
-                            correctAnswer.classList.add("correct")
-                            correctAnswer.appendChild(checkIcon)
-                        }
-                    } else if (type == 1) {
-                        if (ev.target.innerText == selected.capital) {
-                            ev.target.classList.add("correct")
-                            ev.target.appendChild(checkIcon)
-                            
-                        } else {
-                            ev.target.classList.add("wrong")
-                            ev.target.appendChild(xIcon)
-                            console.log(selected.capital)
-                            const correctAnswer = answers.find( item => item.innerText == selected.capital)
-                            correctAnswer.classList.add("correct")
-                            correctAnswer.appendChild(checkIcon)
-                        }
-                    } else if (type == 2) {
-                        if (ev.target.innerText == selected.name.common) {
-                            ev.target.classList.add("correct")
-                            ev.target.appendChild(checkIcon)
-                        } else {
-                            ev.target.classList.add("wrong")
-                            ev.target.appendChild(xIcon)
-                            console.log(selected.name.common)
-                            const correctAnswer = answers.find( item => item.innerText == selected.name.common)
-                            correctAnswer.classList.add("correct")
-                            correctAnswer.appendChild(checkIcon)
-                        }                        
+                        clickedAnswerText == selected.name.common ? markAsCorrectAnswer(ev) : markAsWrongAnswer(ev, selected.name.common)
+                    } 
+                    if (type == 1) {
+                        clickedAnswerText == selected.capital ? markAsCorrectAnswer(ev) : markAsWrongAnswer(ev, selected.capital)
+                    } 
+                    if (type == 2) {
+                        clickedAnswerText == selected.name.common ? markAsCorrectAnswer(ev) : markAsWrongAnswer(ev, selected.name.common)                       
                     }
                     return Boolean(ev.target.classList.contains("correct"))
                 }
             }
-            click = dontCheat()
+            click = isCorrect()
             
         })
         
@@ -140,8 +155,6 @@ function startQuestion() {
 
 function elaborateQuestion(allCountries, countrySelected, type) {
 
-    // dontCheat = {countrySelected, type}
-    console.log(allCountries, countrySelected, type)
     const possibleAnswers = allCountries.filter( country => {
         if (country.name.common === countrySelected.name.common) return false
             
@@ -152,11 +165,8 @@ function elaborateQuestion(allCountries, countrySelected, type) {
     while (possibleAnswers.length > 3) {
         possibleAnswers.splice( random(0, possibleAnswers.length), 1 )
     }
-    console.log(possibleAnswers)
-    possibleAnswers.splice( random(0, 3), 0, countrySelected)
-    
-    // console.log(possibleAnswers)
-    
+
+    possibleAnswers.splice( random(0, 3), 0, countrySelected)    
     
     if (type === 0) {
         const text = `${countrySelected.capital} is the Capital of...`
@@ -185,56 +195,4 @@ function elaborateQuestion(allCountries, countrySelected, type) {
     }
 }
 
-clickeableAnswers.addEventListener("mouseover", (ev) => {
-    if (ev.target == clickeableAnswers) return false
-    ev.target.classList.add("mouseover")    
-})
-clickeableAnswers.addEventListener("mouseout", (ev) => {
-    if (ev.target == clickeableAnswers) return false
-    ev.target.classList.remove("mouseover")
-})
-
-clickeableAnswers.addEventListener("click", (ev) => {
-
-    if (ev.target == clickeableAnswers) return false
-
-    clearInterval(interval)
-
-    const answers = [...clickeableAnswers.children]
-    if (answers.some( item => item.classList.contains("correct"))) return false
-    
-    const correct = click(ev)
-    let count = 0;
-
-    if (correct) {
-        nextButton.classList.add("show")
-        count = correctCount(1)
-    } else {
-        setTimeout( getResults, 2500, "Results")
-    }
-})
-
-timer.addEventListener("DOMCharacterDataModified", ev => {
-    if (timer.innerText == "0 sec") {
-        alert("xd")
-    } else {
-        alert(1)
-    }
-})
-
-function getResults(title) {
-    quizbox.style.display = "none"
-    resultBox.style.display = "flex"
-    resultTitle.innerHTML = title
-    resultText.innerHTML = `You got <span class="count">${correctCount(1)}</span> correct answers.`
-    correctCount(0)
-}
-
-
-function random(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
 startQuestion()
-
-
