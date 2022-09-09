@@ -1,6 +1,5 @@
 # Country-quiz
-This is a Web Game idea that I took from [devchallenges.io]
-[devchallenges.io]: https://devchallenges.io/
+This is a Web Game idea that I took from [devchallenges.io](https://devchallenges.io/)
 
 ## How does it work?
 1. Using *promises*, it fetches data using the [REST Countries API]( https://restcountries.com)
