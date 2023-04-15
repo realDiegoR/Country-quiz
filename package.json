@@ -1,0 +1,20 @@
+{
+	"name": "country-quiz",
+	"version": "1.0.0",
+	"description": "This is a web game I took from devchallenges webpage.",
+	"source": "./src/index.html",
+	"scripts": {
+		"start": "parcel --port 3000",
+		"build": "parcel build src/index.html --public-url ./"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"gh-pages": "^5.0.0",
+		"parcel": "^2.8.3",
+		"postcss": "^8.4.21",
+		"tailwindcss": "^3.3.1",
+		"typescript": "^5.0.4"
+	}
+}

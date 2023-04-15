@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+	.Answer-option {
+		@apply border-2 border-solid border-[#6066D0] text-[#6066D0] cursor-pointer px-4 py-3 rounded-xl list-[upper-latin] list-inside transition-colors duration-200 hover:bg-orange-400 hover:text-white hover:border-transparent;
+	}
+}
