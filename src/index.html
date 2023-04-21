@@ -11,53 +11,51 @@
 			href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap"
 			rel="stylesheet"
 		/>
-		<script defer src="./js/index.js"></script>
+		<script type="module" src="./ts/index.ts"></script>
 		<link rel="stylesheet" href="./css/index.css" />
 		<link rel="icon" href="./assets/img/devchallenges.png" />
 	</head>
 	<body class="bg-background min-h-screen bg-cover grid place-items-center">
 		<main class="relative w-11/12 max-w-4xl font-poppins">
 			<section
-				class="absolute -top-14 left-0 right-0 mx-auto w-28 px-6 py-2 text-center bg-orange-500 text-white rounded-xl shadow-2xl shadow-gray-700"
+				class="absolute -top-14 left-0 right-0 mx-auto w-28 px-6 py-2 text-center bg-orange-500 text-white rounded-xl font-medium"
 			>
-				<span class="font-medium" id="timer">15 sec</span>
+				<span id="timer">15</span><span> sec</span>
 			</section>
 			<section class="text-xl mb-1 font-bold text-white">
 				<h1>COUNTRY QUIZ</h1>
 			</section>
 			<div class="relative bg-white rounded-2xl p-8">
+				<img
+					class="absolute w-24 aspect-square lg:w-28 right-0 -top-16"
+					src="./assets/svg/world-globe.svg"
+					id="logo"
+					alt="Game logo"
+				/>
 				<section id="quizbox">
 					<img
-						class="absolute w-28 h-28 right-0 -top-16"
-						src="./assets/svg/world-globe.svg"
-						id="logo"
-						alt="Game logo"
-					/>
-					<img
-						class="w-20 aspect-video mb-2 rounded-sm border-2 invisible"
+						class="w-20 aspect-video mb-2 rounded-sm border-2 hidden"
 						alt="flag"
-						id="image"
+						id="flagImage"
 					/>
 					<p class="font-bold text-[#2F527B] mb-4 leading-tight" id="question">
 						...
 					</p>
 
 					<ul class="space-y-4" id="answer-options">
-						<li class="Answer-option" id="ANS1">...</li>
-						<li class="Answer-option" id="ANS2">...</li>
-						<li class="Answer-option" id="ANS3">...</li>
-						<li class="Answer-option" id="ANS4">...</li>
+						<li class="Answer-option">...</li>
+						<li class="Answer-option">...</li>
+						<li class="Answer-option">...</li>
+						<li class="Answer-option">...</li>
 					</ul>
 					<p
 						class="hidden mt-6 ml-auto bg-orange-400 w-min px-8 py-2 rounded-md shadow-md shadow-orange-200 text-lg text-white hover:bg-orange-500 cursor-pointer transition-colors duration-300"
 						id="next"
-						onclick="startQuestion()"
 					>
 						Next
 					</p>
 				</section>
-
-				<section class="text-center" id="results">
+				<section class="text-center hidden" id="results">
 					<img
 						class="w-2/3 max-w-sm mx-auto"
 						src="./assets/svg/winners-trophy.svg"
@@ -65,14 +63,14 @@
 					/>
 					<h2
 						class="text-[#1D355D] font-bold text-2xl my-3"
-						id="results-title"
+						id="resultsTitle"
 					></h2>
-					<p class="text-[#1D355D] text-lg my-4" id="results-count">
+					<p class="text-[#1D355D] text-lg my-4" id="resultsCount">
 						<span class="text-green-500 text-xl"></span>
 					</p>
 					<p
 						class="w-max px-10 py-4 rounded-xl mx-auto font-semibold text-lg text-[#1D355D] border-2 border-solid border-[#1D355D] cursor-pointer transition-colors duration-300 hover:bg-green-500 hover:text-white hover:border-transparent"
-						onclick="startQuestion()"
+						id="try-again"
 					>
 						Try again
 					</p>
