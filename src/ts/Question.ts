@@ -1,8 +1,11 @@
 import { Country } from "./Data";
 import { random } from "./utils/random";
 
+type TQuestionType = "country" | "capital" | "flag";
+const QUESTION_TYPES: TQuestionType[] = ["country", "capital", "flag"];
+
 export class Question {
-	type: 0 | 1 | 2;
+	type: TQuestionType;
 	data: Country[];
 	country: Country;
 	answers: Country[];
@@ -12,7 +15,7 @@ export class Question {
 		this.data = data;
 		this.country = this.selectCountry(this.data);
 		this.answers = this.makeAnswers(this.country, this.data);
-		this.type = random(0, 2);
+		this.type = QUESTION_TYPES[random(0, 2)];
 		this.title = this.makeQuestionTitle(this.country, this.type);
 	}
 
@@ -20,11 +23,11 @@ export class Question {
 		return countries[random(0, countries.length - 1)];
 	}
 
-	makeQuestionTitle(country: Country, type: number): string {
-		if (type === 0) {
-			return `${this.country.capital[0]} is the Capital of...`;
-		} else if (type === 1) {
-			return `The Capital of ${this.country.name.common} is...`;
+	makeQuestionTitle(country: Country, type: TQuestionType): string {
+		if (type === "country") {
+			return `${country.capital[0]} is the Capital of...`;
+		} else if (type === "capital") {
+			return `The Capital of ${country.name.common} is...`;
 		}
 		return "Which country does this flag belong to..?";
 	}
@@ -50,7 +53,7 @@ export class Question {
 
 	check(element: HTMLElement) {
 		const clickedText = element.innerText;
-		if (this.type === 0 || this.type === 2) {
+		if (this.type === "country" || this.type === "flag") {
 			const isCorrect = clickedText === this.country.name.common;
 			return isCorrect;
 		}

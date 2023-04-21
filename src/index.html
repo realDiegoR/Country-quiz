@@ -32,7 +32,87 @@
 					id="logo"
 					alt="Game logo"
 				/>
-				<section id="quizbox">
+				<section class="text-center" id="start-box">
+					<h2 class="text-[#1D355D] font-bold text-3xl my-3">
+						Choose regions and play
+					</h2>
+					<ul
+						class="grid grid-cols-auto-fit-100 place-items-center gap-2 justify-center my-8"
+					>
+						<li>
+							<input
+								id="checkbox-america"
+								type="checkbox"
+								class="absolute invisible peer"
+							/>
+							<label
+								for="checkbox-america"
+								class="peer-checked:bg-blue-100 peer-checked:border-blue-500 px-2 py-1 border-solid border-2 w-32 text-center rounded text-lg cursor-pointer block transition-colors duration-150"
+							>
+								America
+							</label>
+						</li>
+						<li>
+							<input
+								id="checkbox-europe"
+								type="checkbox"
+								class="absolute invisible peer"
+							/>
+							<label
+								for="checkbox-europe"
+								class="peer-checked:bg-blue-100 peer-checked:border-blue-500 px-2 py-1 border-solid border-2 w-32 text-center rounded text-lg cursor-pointer block transition-colors duration-150"
+								>Europe</label
+							>
+						</li>
+						<li>
+							<input
+								id="checkbox-asia"
+								type="checkbox"
+								class="absolute invisible peer"
+							/>
+							<label
+								for="checkbox-asia"
+								class="peer-checked:bg-blue-100 peer-checked:border-blue-500 px-2 py-1 border-solid border-2 w-32 text-center rounded text-lg cursor-pointer block transition-colors duration-150"
+							>
+								Asia
+							</label>
+						</li>
+						<li>
+							<input
+								id="checkbox-africa"
+								type="checkbox"
+								class="absolute invisible peer"
+							/>
+							<label
+								for="checkbox-africa"
+								class="peer-checked:bg-blue-100 peer-checked:border-blue-500 px-2 py-1 border-solid border-2 w-32 text-center rounded text-lg cursor-pointer block transition-colors duration-150"
+							>
+								Africa
+							</label>
+						</li>
+						<li>
+							<input
+								id="checkbox-oceania"
+								type="checkbox"
+								class="absolute invisible peer"
+							/>
+							<label
+								for="checkbox-oceania"
+								class="peer-checked:bg-blue-100 peer-checked:border-blue-500 px-2 py-1 border-solid border-2 w-32 text-center rounded text-lg cursor-pointer block transition-colors duration-150"
+							>
+								Oceania
+							</label>
+						</li>
+					</ul>
+					<button
+						type="button"
+						id="start-game"
+						class="w-max px-8 py-2 rounded-xl mx-auto font-semibold text-lg text-[#1D355D] border-2 border-solid border-[#1D355D] cursor-pointer transition-colors duration-300 hover:bg-green-500 hover:text-white hover:border-transparent"
+					>
+						Start!
+					</button>
+				</section>
+				<section id="quizbox" class="hidden">
 					<img
 						class="w-20 aspect-video mb-2 rounded-sm border-2 hidden"
 						alt="flag"

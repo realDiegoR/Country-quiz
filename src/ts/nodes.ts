@@ -2,6 +2,13 @@ const checkSVG = new URL("../assets/svg/check.svg", import.meta.url).href;
 const crossSVG = new URL("../assets/svg/cross.svg", import.meta.url).href;
 
 /* HTMLElements */
+export const startBox = document.getElementById("start-box") as HTMLElement;
+export const startGameButton = document.getElementById(
+	"start-game"
+) as HTMLElement;
+export const regions = [
+	...document.querySelectorAll("input[type='checkbox']"),
+] as HTMLInputElement[];
 export const quizBox = document.getElementById("quizbox") as HTMLElement;
 export const questionText = document.getElementById("question") as HTMLElement;
 export const answersContainer = document.getElementById(

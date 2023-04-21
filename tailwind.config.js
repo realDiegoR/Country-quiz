@@ -9,6 +9,9 @@ module.exports = {
 			fontFamily: {
 				poppins: "Poppins, sans-serif",
 			},
+			gridTemplateColumns: {
+				"auto-fit-100": "repeat(auto-fit, minmax(128px, 1fr))",
+			},
 		},
 	},
 	future: {

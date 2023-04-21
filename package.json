@@ -5,8 +5,11 @@
 	"source": "./src/index.html",
 	"scripts": {
 		"start": "parcel --port 3000",
-		"build": "parcel build src/index.html --public-url ./"
+		"build": "parcel build src/index.html --public-url ./",
+		"predeploy": "rm -rf dist/ && npm run build",
+		"deploy": "gh-pages -d dist"
 	},
+	"homepage": "https://realdiegor.github.io/Country-quiz/",
 	"keywords": [],
 	"author": "",
 	"license": "ISC",

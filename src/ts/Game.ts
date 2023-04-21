@@ -1,4 +1,5 @@
 import {
+	startBox,
 	questionText,
 	answersContainer,
 	answersNodes,
@@ -22,31 +23,37 @@ export class Game {
 	question: Question;
 	scoreCount: ScoreCount;
 	timer: Timer;
-	restartGame: (regions: string[]) => void;
 
 	constructor(
 		data: Data,
 		question: Question,
 		scoreCount: ScoreCount,
-		timer: Timer,
-		restartGame: (regions: string[]) => void
+		timer: Timer
 	) {
 		this.data = data;
 		this.question = question;
 		this.scoreCount = scoreCount;
 		this.timer = timer;
-		this.restartGame = restartGame;
-		this.addEventListeners();
 		this.printResults = this.printResults.bind(this);
+		this.addEventListeners();
 		this.updateScreen();
 	}
 
-	updateScreen() {
-		this.printReset();
-		this.printQuestion();
+	resetScreen() {
+		startBox.classList.remove("hidden");
+		quizBox.classList.add("hidden");
+		resultBox.classList.add("hidden");
+		this.timer.reset();
 	}
 
-	printReset() {
+	updateScreen() {
+		startBox.classList.add("hidden");
+		this.printResetQuizbox();
+		this.printQuestion();
+		this.timer.start(this.printResults);
+	}
+
+	printResetQuizbox() {
 		answersNodes.forEach((node) => {
 			node.classList.remove("Correct", "Wrong");
 		});
@@ -55,7 +62,6 @@ export class Game {
 		resultBox.classList.add("hidden");
 		flagImage.classList.add("hidden");
 		nextButton.classList.add("hidden");
-		this.timer.start(this.printResults);
 	}
 
 	printResults(title: string) {
@@ -84,19 +90,18 @@ export class Game {
 
 	printQuestion() {
 		questionText.innerText = this.question.title;
-		if (this.question.type === 0) {
-			answersNodes.forEach((item, index) => {
-				item.innerHTML = this.question.answers[index].name.common;
-			});
-		} else if (this.question.type === 1) {
-			answersNodes.forEach((item, index) => {
-				item.innerHTML = this.question.answers[index].capital[0];
-			});
-		} else if (this.question.type === 2) {
+		if (this.question.type === "flag") {
 			flagImage.src = this.question.country.flags.png;
 			flagImage.classList.replace("hidden", "block");
+		}
+		if (this.question.type === "flag" || this.question.type === "country") {
 			answersNodes.forEach((item, index) => {
 				item.innerHTML = this.question.answers[index].name.common;
+			});
+		}
+		if (this.question.type === "capital") {
+			answersNodes.forEach((item, index) => {
+				item.innerHTML = this.question.answers[index].capital[0];
 			});
 		}
 	}
@@ -128,7 +133,7 @@ export class Game {
 		);
 		nextButton.addEventListener(
 			"click",
-			(ev) => {
+			() => {
 				this.question.makeNewQuestion();
 				this.updateScreen();
 			},
@@ -138,9 +143,9 @@ export class Game {
 		);
 		tryAgainButton.addEventListener(
 			"click",
-			(ev) => {
+			() => {
 				controller.abort();
-				this.restartGame(["america"]);
+				this.resetScreen();
 			},
 			{
 				once: true,
