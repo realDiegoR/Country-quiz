@@ -13,47 +13,33 @@ import {
 	quizBox,
 	tryAgainButton,
 } from "./nodes";
-import { Data } from "./Data";
 import { Question } from "./Question";
 import { ScoreCount } from "./ScoreCount";
 import { Timer } from "./Timer";
 
 export class Game {
-	data: Data;
 	question: Question;
 	scoreCount: ScoreCount;
 	timer: Timer;
 
-	constructor(
-		data: Data,
-		question: Question,
-		scoreCount: ScoreCount,
-		timer: Timer
-	) {
-		this.data = data;
+	constructor(question: Question, scoreCount: ScoreCount, timer: Timer) {
 		this.question = question;
 		this.scoreCount = scoreCount;
 		this.timer = timer;
-		this.printResults = this.printResults.bind(this);
+		this.paintResults = this.paintResults.bind(this);
 		this.addEventListeners();
-		this.updateScreen();
+		this.paintResetQuizbox();
 	}
 
-	resetScreen() {
+	paintStartScreen() {
 		startBox.classList.remove("hidden");
 		quizBox.classList.add("hidden");
 		resultBox.classList.add("hidden");
 		this.timer.reset();
 	}
 
-	updateScreen() {
+	paintResetQuizbox() {
 		startBox.classList.add("hidden");
-		this.printResetQuizbox();
-		this.printQuestion();
-		this.timer.start(this.printResults);
-	}
-
-	printResetQuizbox() {
 		answersNodes.forEach((node) => {
 			node.classList.remove("Correct", "Wrong");
 		});
@@ -62,16 +48,18 @@ export class Game {
 		resultBox.classList.add("hidden");
 		flagImage.classList.add("hidden");
 		nextButton.classList.add("hidden");
+		this.paintQuestion();
+		this.timer.start(this.paintResults);
 	}
 
-	printResults(title: string) {
+	paintResults(title: string) {
 		quizBox.classList.add("hidden");
 		resultBox.classList.remove("hidden");
 		resultsTitle.innerText = title;
 		resultsText.innerHTML = `You got <span class="text-green-600 text-xl">${this.scoreCount.get()}</span> correct answers.`;
 	}
 
-	printAnswerClick(element: HTMLElement, type: "correct" | "wrong") {
+	paintAnswerClick(element: HTMLElement, type: "correct" | "wrong") {
 		if (type === "correct") {
 			element.classList.add("Correct");
 			element.appendChild(checkIcon);
@@ -88,7 +76,7 @@ export class Game {
 		correctAnswer.appendChild(checkIcon);
 	}
 
-	printQuestion() {
+	paintQuestion() {
 		questionText.innerText = this.question.title;
 		if (this.question.type === "flag") {
 			flagImage.src = this.question.country.flags.png;
@@ -117,12 +105,12 @@ export class Game {
 				answersContainer.classList.add("pointer-events-none");
 				const isCorrect = this.question.check(target);
 				if (isCorrect) {
-					this.printAnswerClick(target, "correct");
+					this.paintAnswerClick(target, "correct");
 					nextButton.classList.remove("hidden");
 				} else {
-					this.printAnswerClick(target, "wrong");
+					this.paintAnswerClick(target, "wrong");
 					setTimeout(() => {
-						this.printResults("Game Over");
+						this.paintResults("Game Over");
 					}, 2500);
 				}
 				isCorrect && this.scoreCount.sum();
@@ -135,7 +123,7 @@ export class Game {
 			"click",
 			() => {
 				this.question.makeNewQuestion();
-				this.updateScreen();
+				this.paintResetQuizbox();
 			},
 			{
 				signal: controller.signal,
@@ -145,7 +133,7 @@ export class Game {
 			"click",
 			() => {
 				controller.abort();
-				this.resetScreen();
+				this.paintStartScreen();
 			},
 			{
 				once: true,

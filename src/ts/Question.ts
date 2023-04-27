@@ -1,5 +1,5 @@
-import { Country } from "./Data";
 import { random } from "./utils/random";
+import { Country } from "./Countries";
 
 type TQuestionType = "country" | "capital" | "flag";
 const QUESTION_TYPES: TQuestionType[] = ["country", "capital", "flag"];
